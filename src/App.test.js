@@ -8,11 +8,50 @@ import FeedbackForm from './FeedbackForm';
 configure({ adapter: new Adapter() });
 
 describe('Interactions with the anonymity toggle on the form', () => {
-    test("Hides the anonymity toggle when allowAnonymity configuration is false.", () => {
+    test('Hides the anonymity toggle when allowAnonymity configuration is false.', () => {
         const wrapper = shallow(
             <FeedbackForm configuration={{ allowAnonymity: false }} />
-        )
+        );
     
-        expect(wrapper.find('#anonymity-toggle').isEmptyRender()).toBe(true)
+        expect(wrapper.find('#anonymity-toggle').isEmptyRender()).toBe(true);
     });
-})
+
+    test('Displays the anonymity toggle when allowAnonimity configuration is true.', () => {
+        const wrapper = shallow(
+            <FeedbackForm configuration={{ allowAnonymity: true }} />
+        );
+
+        expect(wrapper.find('#anonymity-toggle').isEmptyRender()).toBe(false);
+    });
+});
+
+describe('Interactions with the acceptedFileFormats configuration.', () => {
+    test('Displays the attachment button when acceptedFileFormats exist.', () => {
+        const wrapper = shallow(
+            <FeedbackForm configuration={{ acceptedFileFormats: ['png', 'jpg'] }} />
+        )
+
+        expect(wrapper.find('#attachmentButton').isEmptyRender()).toBe(false);
+    });
+
+    test('Doesn\'t render the attachment button if no acceptedFileFormats exist.', () => {
+        const wrapper = shallow(
+            <FeedbackForm configuration={{ }} />
+        );
+
+        expect(wrapper.find('#attachmentButton').isEmptyRender()).toBe(true);
+    });
+
+    test('Doesn\'t render the attachment button if acceptedFileFormats is defined but empty.', () => {
+        const wrapper = shallow(
+            <FeedbackForm configuration={{ acceptedFileFormats: [] }} />
+        );
+
+        expect(wrapper.find('#attachmentButton').isEmptyRender()).toBe(true);
+    });
+
+    test.skip('Doesn\'t accept file formats which are not specified in the acceptedFileFormats configuration.', () => {
+        // expect FormData.attachments to not contain non-specified file extensions using jest's string methods
+    });
+    
+});

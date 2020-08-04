@@ -9,15 +9,13 @@ function FeedbackForm(props) {
     const [ submitted, setSubmitted ] = useState(false)
 
     let alert = submitted ? <Alert color='success'>{ props.configuration.validSubmissionMessage }</Alert> : null;
-    console.log(props.configuration.validSubmissionMessage);
-    console.log(props.configuration.allowAnonymity);
 
     let nameField = <input 
         id='name' 
         type='text'
         name='name' 
         value={ props.configuration.accountName ? props.configuration.accountName : anonymous ? 'Anonymous' : name } 
-        disabled={ props.configuration.accountName != undefined || anonymous ? true : false } 
+        disabled={ props.configuration.accountName !== undefined || anonymous ? true : false } 
         onChange={ event => setName(event.target.value) }
     />
 
@@ -33,7 +31,7 @@ function FeedbackForm(props) {
             <label htmlFor='anonymous'>Send Privately?</label>
         </> : null;
 
-    let attachButton = props.configuration.acceptedFileFormats ? <input type='file' name='attachments' multiple/> : null;
+    let attachmentButton = props.configuration.acceptedFileFormats && props.configuration.acceptedFileFormats.length !== 0 ? <input id='attachmentButton' type='file' name='attachments' multiple/> : null;
 
     const handleSubmit = (form) => {
         const xhr = new XMLHttpRequest();
@@ -63,7 +61,7 @@ function FeedbackForm(props) {
                     <textarea name='description' rows='4' cols='50' />
                 </Row>
                 <Row>
-                    { attachButton }
+                    { attachmentButton }
                     <input type='submit' value='Submit' />
                 </Row>
             </form>
