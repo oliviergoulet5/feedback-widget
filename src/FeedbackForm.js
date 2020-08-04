@@ -22,6 +22,7 @@ function FeedbackForm(props) {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
         xhr.send(new FormData(form));
+        console.log('Form Submitted');
     }
 
     return (
@@ -66,7 +67,8 @@ Configuration:
     anonimityAllowed: boolean,
     acceptedAttachments: Map<string> of file extensions
     receptionMethod: json (email? write email data, direct data to http? write http information) NEED MORE RESEARCH
-
+    minimumCharacters: number,
+    maximumCharacters: number
 Form data: 
     timeSent,
 
