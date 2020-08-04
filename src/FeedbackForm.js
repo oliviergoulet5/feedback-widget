@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Alert } from 'reactstrap';
 
 const API_PATH = 'http://localhost:8080'; // stub
 
 function FeedbackForm(props) {
     const [ anonymous, setAnonymous ] = useState(false);
     const [ name, setName ] = useState('');
+    const [ submitted, setSubmitted ] = useState(false)
+
+    let alert = submitted ? <Alert color='success'>{ props.configuration.validSubmissionMessage }</Alert> : null;
+    console.log(props.configuration.validSubmissionMessage);
+    console.log(props.configuration.allowAnonymity);
 
     let nameField = <input 
         id='name' 
@@ -16,13 +21,30 @@ function FeedbackForm(props) {
         onChange={ event => setName(event.target.value) }
     />
 
+    let anonymityToggle = props.configuration.allowAnonymity ? 
+        <>
+            <input 
+                id='anonymity-toggle'
+                type='checkbox' 
+                name='isAnonymous' 
+                checked={ anonymous } 
+                onChange={ event => setAnonymous(event.target.checked) }
+            />
+            <label htmlFor='anonymous'>Send Privately?</label>
+        </> : null;
+
     let attachButton = props.configuration.acceptedFileFormats ? <input type='file' name='attachments' multiple/> : null;
 
     const handleSubmit = (form) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
-        xhr.send(new FormData(form));
-        console.log('Form Submitted');
+
+        let formData = new FormData(form);
+        // Validate form here
+
+        // If succeeded
+        xhr.send(formData);
+        setSubmitted(true);
     }
 
     return (
@@ -32,18 +54,13 @@ function FeedbackForm(props) {
                 handleSubmit(event.target);
             }}>
                 <Row>
+                    { alert }
                     { nameField }
-                    <input 
-                        type='checkbox' 
-                        name='isAnonymous' 
-                        checked={ anonymous } 
-                        onChange={ event => setAnonymous(event.target.checked) }
-                    />
+                    { anonymityToggle }
 
-                    <label htmlFor='anonymous'>Send Privately?</label>
                 </Row>
                 <Row>
-                    <textarea rows='4' cols='50' />
+                    <textarea name='description' rows='4' cols='50' />
                 </Row>
                 <Row>
                     { attachButton }
@@ -56,7 +73,10 @@ function FeedbackForm(props) {
 
 FeedbackForm.defaultProps = {
     configuration: {
-        anonymityAllowed: true 
+        allowAnonymity: true,
+        maximumCharacters: 250,
+        minimumCharacters: 30,
+        validSubmissionMessage: 'Your feedback has been submitted.' 
     }
 }
 
