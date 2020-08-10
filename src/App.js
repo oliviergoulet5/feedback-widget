@@ -4,7 +4,7 @@ import FeedbackForm from './FeedbackForm'
 export default () => (
   <div id='main'>
     <FeedbackForm configuration={{ 
-      allowAnonymity: false,
+      allowAnonymity: true,
       acceptedFileFormats: ['png', 'jpg'],
       maximumCharacters: 250,
       minimumCharacters: 30

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
+import AttachmentButton from './AttachmentButton';
 
 const API_PATH = 'http://localhost:8080'; // stub
 
@@ -31,15 +32,18 @@ function FeedbackForm(props) {
             <label htmlFor='anonymous'>Send Privately?</label>
         </> : null;
 
-    let attachmentButton = props.configuration.acceptedFileFormats && props.configuration.acceptedFileFormats.length !== 0 ? <input id='attachmentButton' type='file' name='attachments' multiple/> : null;
+    let attachmentButton = props.configuration.acceptedFileFormats && props.configuration.acceptedFileFormats.length !== 0 
+        ? <AttachmentButton acceptedFileFormats={ props.configuration.acceptedFileFormats }/>
+        : null;
 
     const handleSubmit = (form) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', form.action, true);
 
         let formData = new FormData(form);
+        console.log(form);
         // Validate form here
-
+        
         // If succeeded
         xhr.send(formData);
         setSubmitted(true);
