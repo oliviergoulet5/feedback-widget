@@ -5,6 +5,8 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import FeedbackForm from './FeedbackForm';
 
+import { validateFiles } from  './Util';
+
 configure({ adapter: new Adapter() });
 
 describe('Interactions with the anonymity toggle on the form', () => {
@@ -50,8 +52,11 @@ describe('Interactions with the acceptedFileFormats configuration.', () => {
         expect(wrapper.find('#attachmentButton').isEmptyRender()).toBe(true);
     });
 
-    test.skip('Doesn\'t accept file formats which are not specified in the acceptedFileFormats configuration.', () => {
-        // expect FormData.attachments to not contain non-specified file extensions using jest's string methods
+    test('Doesn\'t accept file formats which are not specified in the acceptedFileFormats configuration.', () => {
+        expect(validateFiles(['test.txt', 'bob.bmp'], ['png', 'bmp'])).toEqual(false);
     });
-    
+
+    test('Accepts file formats which are specified in the acceptedFileFormats configuration.', () => {
+        expect(validateFiles(['test.txt', 'bob.jpg'], ['txt', 'jpg'])).toEqual(true);
+    });
 });
