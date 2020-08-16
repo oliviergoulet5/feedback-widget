@@ -1,16 +1,24 @@
 import React from "react";
 import FeedbackForm from './FeedbackForm'
 
+import './App.scss';
+
 export default () => (
-  <div id='main'>
-    <FeedbackForm configuration={{ 
-      allowAnonymity: true,
-      acceptedFileFormats: ['png', 'jpg'],
-      maximumCharacters: 250,
-      minimumCharacters: 30
-    }}/>
-    <footer>
-      <p>Powered by Feedback</p>
-    </footer>
-  </div>
+  <>
+    <div className='modal'>
+      <FeedbackForm configuration={{ 
+        allowAnonymity: true,
+        acceptedFileFormats: ['png', 'jpg'],
+        maximumCharacters: 250,
+        minimumCharacters: 30
+      }}/>
+      <footer>
+        <p className='fine-print'>Powered by Feedback</p>
+      </footer>
+    </div>
+    
+    <p id='credit'>
+      <b>Feedback Widget Demo</b> by Olivier Goulet
+    </p>
+  </>
 );

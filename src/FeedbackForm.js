@@ -11,14 +11,18 @@ function FeedbackForm(props) {
 
     let alert = submitted ? <Alert color='success'>{ props.configuration.validSubmissionMessage }</Alert> : null;
 
-    let nameField = <input 
-        id='name' 
-        type='text'
-        name='name' 
-        value={ props.configuration.accountName ? props.configuration.accountName : anonymous ? 'Anonymous' : name } 
-        disabled={ props.configuration.accountName !== undefined || anonymous ? true : false } 
-        onChange={ event => setName(event.target.value) }
-    />
+    let nameField = 
+    <>
+        <label>Name:</label>
+        <input 
+            id='name' 
+            type='text'
+            name='name' 
+            value={ props.configuration.accountName ? props.configuration.accountName : anonymous ? 'Anonymous' : name } 
+            disabled={ props.configuration.accountName !== undefined || anonymous ? true : false } 
+            onChange={ event => setName(event.target.value) }
+        />
+    </>
 
     let anonymityToggle = props.configuration.allowAnonymity ? 
         <>
