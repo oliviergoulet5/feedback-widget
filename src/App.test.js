@@ -31,7 +31,7 @@ describe('Interactions with the acceptedFileFormats configuration.', () => {
     test('Displays the attachment button when acceptedFileFormats exist.', () => {
         const wrapper = shallow(
             <FeedbackForm configuration={{ acceptedFileFormats: ['png', 'jpg'] }} />
-        )
+        );
 
         expect(wrapper.find('#attachmentButton').isEmptyRender()).toBe(false);
     });
